@@ -1,62 +1,93 @@
+import random
+from questions import perguntas
+
 name = input("Please enter your name: ")
 
 print(f"{name}, welcome to Bruno Rocha's Python Quiz!")
 
 #play = input(name + ", do you want to play? (yes/no): ")
-play = input(f"{name}, do you want to play? (yes/no): ")
+play = input(f"{name}, do you want to play? \n1 - yes \n2 - no\n")
 
-if play.lower() != "yes":
+if play != "1":
     print("Maybe next time, see you later!")
     quit()
 
+while play == "1":
 
+    tipo = input("Please choose a question type: \n1 - Short Answer \n2 - True Or False\n")          
+    if tipo == "1":
+        tipo = "Short Answer"
+    elif tipo == "2":            
+        tipo = "True Or False"
 
-while play.lower() == "yes":
+    while tipo not in perguntas:
+        print("invalid type.")
+        tipo = input("Choose again: \n1 - Short Answer \n2 - True Or False\n")
+        if tipo == "1":
+            tipo = "Short Answer"
+        elif tipo == "2":            
+            tipo = "True Or False"
+
+    category = input("Please choose a category: \n1 - Hardware \n2 - General Culture \n3 - Python\n")
+    if category == "1":
+        category = "Hardware"
+    elif category == "2":            
+        category = "General Culture"
+    elif category == "3":            
+        category = "Python"
+
+    while category not in perguntas[tipo]:
+        print("invalid category.")
+        category = input("Choose again: \n1 - Hardware \n2 - General Culture \n3 - Python\n")
+        if category == "1":
+            category = "Hardware"
+        elif category == "2":            
+            category = "General Culture"
+        elif category == "3":            
+            category = "Python"
+
+    # criar uma lista apenas com as perguntas (as chaves)
+    lista_perguntas = list(perguntas[tipo][category].keys())
+    
+    # baralhar a ordem dessa lista
+    random.shuffle(lista_perguntas)
 
     score = 0
+    questionNumber = 0
 
-    #1
-    answer = input("What does CPU stand for? ")
-    if answer.lower() == "central processing unit":
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+    #percorrer a lista ja baralhada
+    for question in lista_perguntas:
+        # buscar a resposta certa no dicionario usando a pergunta como chave
+        answer = perguntas[tipo][category][question]
 
-    #2
-    answer = input("What does RAM stand for? ")
-    if answer.lower() == "random access memory":
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+        questionNumber += 1
+        
+        user_answer = input(question)
 
-    #3
-    answer = input("What does GPU stand for? ")
-    if answer.lower() == "graphics processing unit":
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+        if isinstance(answer, bool):
+            opcoes_true = ["true", "t", "yes", "y"]
+            opcoes_false = ["false", "f", "no", "n"]
+            
+            user_answer = user_answer.lower().strip()
 
-    #4
-    answer = input("What does PSU stand for? ")
-    if answer.lower() == "power supply unit":
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+            while user_answer not in opcoes_true and user_answer not in opcoes_false:
+                print("invalid input. please use: true/t/yes/y or false/f/no/n")
+                user_answer = input(question).lower().strip()
 
-    #5
-    answer = input("What does HDD stand for? ")
-    if answer.lower() == "hard disk drive":
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+            user_answer = user_answer in opcoes_true
+        else:
+            user_answer = user_answer.strip().lower()
+            answer = answer.strip().lower()
 
-    print(f"{name}, you got {score} out of 5 questions correct!")
-    print(f"Final score: {score/5 * 100:.2f}%")
+        if user_answer == answer:
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Wrong! The correct answer is: {answer}")
 
-    play = input("Do you want to play again? (yes/no): ") 
+    print(f"{name}, you got {score} out of {questionNumber} questions correct!")
+    print(f"Final score: {score/questionNumber * 100:.2f}%")
 
+    play = input("Do you want to play again? \n1 - yes \n2 - no\n")
+
+print("Thanks for playing, see you later!")
