@@ -6,11 +6,19 @@ name = input("Please enter your name: ")
 print(f"{name}, welcome to Bruno Rocha's Python Quiz!")
 
 #play = input(name + ", do you want to play? (yes/no): ")
-play = input(f"{name}, do you want to play? \n1 - yes \n2 - no\n")
+play = 0
 
-if play != "1":
-    print("Maybe next time, see you later!")
-    quit()
+while play not in ["1", "2"]:
+    #play = input(name + ", do you want to play? (yes/no): ")
+    play = input(f"{name}, do you want to play? \n1 - yes \n2 - no\n")
+
+    if play == "2":
+        print("Maybe next time, see you later!")
+        quit()
+    elif play == "1":
+        play = "1"
+    else:
+        print("Invalid input. Please use 1 for yes and 2 for no.")
 
 while play == "1":
 
@@ -21,7 +29,7 @@ while play == "1":
         tipo = "True Or False"
 
     while tipo not in perguntas:
-        print("invalid type.")
+        print("Invalid type.")
         tipo = input("Choose again: \n1 - Short Answer \n2 - True Or False\n")
         if tipo == "1":
             tipo = "Short Answer"
@@ -37,7 +45,7 @@ while play == "1":
         category = "Python"
 
     while category not in perguntas[tipo]:
-        print("invalid category.")
+        print("Invalid category.")
         category = input("Choose again: \n1 - Hardware \n2 - General Culture \n3 - Python\n")
         if category == "1":
             category = "Hardware"
@@ -88,6 +96,17 @@ while play == "1":
     print(f"{name}, you got {score} out of {questionNumber} questions correct!")
     print(f"Final score: {score/questionNumber * 100:.2f}%")
 
-    play = input("Do you want to play again? \n1 - yes \n2 - no\n")
+    play = 0
 
-print("Thanks for playing, see you later!")
+    while play not in ["1", "2"]:
+        #play = input(name + ", do you want to play? (yes/no): ")
+        play = input("Do you want to play again? \n1 - yes \n2 - no\n")
+
+        if play == "2":
+            print("Thanks for playing, see you later!")
+            quit()
+        elif play == "1":
+            play = "1"
+        else:
+            print("Invalid input. Please use 1 for yes and 2 for no.")
+
